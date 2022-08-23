@@ -253,9 +253,17 @@ install( FILES
   DESTINATION include/${OGRE_NEXT_PREFIX}
 )
 
+if (UNIX)
+  # Always generate package config files on Unix systems
+  set(OGRE_GENERATE_PKGCONFIG TRUE)
+else()
+  # For Windows, check for opt-in configuration of pkg-config
+  set(OGRE_GENERATE_PKGCONFIG ${OGRE_CONFIG_GENERATE_PKGCONFIG})
+endif()
+
 
 # Create the pkg-config package files on Unix systems
-if (UNIX)
+if (OGRE_GENERATE_PKGCONFIG)
   set(OGRE_LIB_SUFFIX "")
   set(OGRE_PLUGIN_PREFIX "")
   set(OGRE_PLUGIN_EXT ".so")
@@ -268,6 +276,12 @@ if (UNIX)
   if (OGRE_BUILD_TYPE STREQUAL "debug")
     set(OGRE_LIB_SUFFIX "${OGRE_LIB_SUFFIX}_d")
   endif ()
+
+  if (WIN32)
+    set(OGRE_PLUGIN_DIRECTORY bin)
+  else()
+    set(OGRE_PLUGIN_DIRECTORY ${OGRE_LIB_DIRECTORY})
+  endif()
 
   set(OGRE_ADDITIONAL_LIBS "")
   set(OGRE_CFLAGS "")

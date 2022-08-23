@@ -478,7 +478,7 @@ option(OGRE_BUILD_TESTS "Build the unit tests & PlayPen" FALSE)
 option(OGRE_CONFIG_DOUBLE "Use doubles instead of floats in Ogre" FALSE)
 option(OGRE_CONFIG_NODE_INHERIT_TRANSFORM "Tells the node whether it should inherit full transform from it's parent node or derived position, orientation and scale" FALSE)
 
-
+option(OGRE_CONFIG_GENERATE_PKGCONFIG "Force pkg-config generation on non-Unix platforms" FALSE)
 set(OGRE_PLUGIN_LIB_PREFIX "" CACHE STRING "Prefix dynamically linked plugins, e.g. 'lib' (GCC and Clang only)")
 
 if (WINDOWS_STORE OR WINDOWS_PHONE)
