@@ -14,8 +14,6 @@
 
 #include "OgreWindowEventUtilities.h"
 
-#include "OgreVulkanBuildSettings.h"
-
 #include "OgreVulkanDevice.h"
 
 #include <vulkan/vulkan_core.h>
@@ -393,6 +391,7 @@ int main( int /*argc*/, const char * /*argv*/[] )
     vulkanPluginLocation += "RenderSystem_Vulkan";
 #    endif
 
+    root->loadPlugin( vulkanPluginLocation, false, &pluginParams );
 #else
     const char *pluginsFile = 0;  // TODO
 #endif
@@ -412,7 +411,6 @@ int main( int /*argc*/, const char * /*argv*/[] )
     pluginParams["external_instance"] =
         StringConverter::toString( reinterpret_cast<uintptr_t>( &externalInstance ) );
 
-    root->loadPlugin( vulkanPluginLocation, false, &pluginParams );
 
     root->setRenderSystem( root->getRenderSystemByName( "Vulkan Rendering Subsystem" ) );
     root->getRenderSystem()->setConfigOption( "sRGB Gamma Conversion", "Yes" );

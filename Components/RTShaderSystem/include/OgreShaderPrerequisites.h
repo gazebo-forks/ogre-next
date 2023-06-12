@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 
-namespace Ogre 
+namespace Ogre
 {
 
 /// Forward declarations from Ogre namespace.
@@ -48,7 +48,7 @@ class MaterialSerializer;
 
 typedef GeneralAllocatedObject  RTShaderSystemAlloc;
 
-namespace RTShader 
+namespace RTShader
 {
 
 /// Forward declarations from RTShader namespace.
@@ -73,7 +73,7 @@ class ProgramWriterManager;
 
 typedef SharedPtr<Parameter>        ParameterPtr;
 typedef SharedPtr<UniformParameter> UniformParameterPtr;
-typedef vector<ParameterPtr>::type  ShaderParameterList;
+typedef std::vector<ParameterPtr>::type  ShaderParameterList;
 
 /// Utility function with same style as boost::hash_combine
 template <class T>
@@ -84,7 +84,7 @@ inline void sh_hash_combine(uint32& seed, T const& v)
 
 // Vertex shader output parameters compact policy.
 enum VSOutputCompactPolicy
-{   
+{
     VSOCP_LOW       = 0,        // VS Outputs will be compacted just in case the maximum slot count exceeded.
     VSOCP_MEDIUM    = 1,        // VS Outputs will be compacted always without parameter splits.
     VSOCP_HIGH      = 2         // VS Outputs will be compacted always including parameter splits.
@@ -118,8 +118,7 @@ enum SkinningType
 #   define _OgreRTSSExport __attribute__ ((visibility("default")))
 #else
 #   define _OgreRTSSExport
-#endif 
+#endif
 
 
 #endif
-

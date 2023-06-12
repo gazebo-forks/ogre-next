@@ -30,8 +30,6 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreVulkanBuildSettings.h"
-
 #include "OgreLogManager.h"
 
 #ifdef __MINGW32__

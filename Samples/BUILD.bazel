@@ -1,0 +1,61 @@
+cc_library(
+  name="Samples_Common",
+  srcs = glob([
+    "2.0/Common/src/*.cpp",
+    "2.0/Common/src/System/*.cpp",
+    "2.0/Common/src/System/Android/*.cpp",
+    "2.0/Common/src/System/Desktop/*.cpp",
+    "2.0/Common/src/Threading/*.cpp",
+    "2.0/Common/src/Utils/*.cpp"
+  ]),
+  hdrs = glob([
+    "2.0/Common/include/*.h",
+    "2.0/Common/include/System/*.h",
+    "2.0/Common/include/System/Android/*.h",
+    "2.0/Common/include/System/Desktop/*.h",
+    "2.0/Common/include/Threading/*.h",
+    "2.0/Common/include/Utils/*.h",
+  ]),
+  includes = [
+    "2.0/Common/include"
+  ],
+  deps = [
+    "@sdl2",
+    "@gz//third_party/ogre-next:OgreMain",
+    "@gz//third_party/ogre-next:RenderSystemGL3Plus_egl",
+    "@gz//third_party/ogre-next:RenderSystemVulkan_null",
+    #"@gz//third_party/ogre-next:RenderSystemVulkan_xcb",
+    "@gz//third_party/ogre-next:ComponentHlmsPbs",
+    "@gz//third_party/ogre-next:ComponentHlmsUnlit",
+    "@gz//third_party/ogre-next:ComponentOverlay",
+    "@gz//third_party/ogre-next:ComponentPlanarReflections",
+  ]
+)
+
+cc_binary(
+  name="Tutorial_VulkanExternal",
+  srcs = [
+    "2.0/Tutorials/Tutorial_VulkanExternal/Tutorial_VulkanExternal.cpp"
+  ],
+  copts = [
+    "-Wno-unused-variable",
+  ],
+  deps = [
+    "@gz//third_party/ogre-next:OgreMain",
+    ":Samples_Common"
+  ]
+)
+
+cc_binary(
+  name="Showcase_Hdr",
+  srcs = [
+    "2.0/Showcase/Hdr/Hdr.cpp",
+    "2.0/Showcase/Hdr/Hdr.h",
+    "2.0/Showcase/Hdr/HdrGameState.cpp",
+    "2.0/Showcase/Hdr/HdrGameState.h",
+  ],
+  deps = [
+    "@gz//third_party/ogre-next:OgreMain",
+    ":Samples_Common"
+  ]
+)

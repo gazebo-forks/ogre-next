@@ -26,6 +26,8 @@
   -----------------------------------------------------------------------------
 */
 
+#include <iostream>
+
 #include "PBuffer/OgreEglPBufferSupport.h"
 
 #include "OgreException.h"
@@ -209,6 +211,7 @@ namespace Ogre
     //-------------------------------------------------------------------------
     void EglPBufferSupport::setConfigOption( const String &name, const String &value )
     {
+        std::cout << "setConfigOption: " << name << " " << value << std::endl;
         ConfigOptionMap::iterator option = mOptions.find( name );
 
         if( option == mOptions.end() )

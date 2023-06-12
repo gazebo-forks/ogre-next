@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "OgreDirectionRandomiserAffectorFactory.h"
 #include "OgreDeflectorPlaneAffectorFactory.h"
 
-namespace Ogre 
+namespace Ogre
 {
     const String sPluginName = "ParticleFX";
     //---------------------------------------------------------------------
@@ -157,7 +157,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void ParticleFXPlugin::uninstall()
     {
-        // destroy 
+        // destroy
         vector<ParticleEmitterFactory*>::type::iterator ei;
         vector<ParticleAffectorFactory*>::type::iterator ai;
 
@@ -171,8 +171,7 @@ namespace Ogre
             OGRE_DELETE (*ai);
         }
 
-
+        mEmitterFactories.clear();
+        mAffectorFactories.clear();
     }
-
-
 }

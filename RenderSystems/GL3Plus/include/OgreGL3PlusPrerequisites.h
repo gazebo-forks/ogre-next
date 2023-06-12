@@ -32,8 +32,6 @@ THE SOFTWARE.
 
 #include "OgreLogManager.h"
 
-#include "OgreGL3PlusBuildSettings.h"
-
 namespace Ogre {
     // Forward declarations
     class GL3PlusAsyncTextureTicket;
@@ -46,7 +44,7 @@ namespace Ogre {
     struct GL3PlusHlmsPso;
     class GL3PlusTextureGpuManager;
     class GL3PlusVaoManager;
-    
+
     class GLSLShader;
 
 

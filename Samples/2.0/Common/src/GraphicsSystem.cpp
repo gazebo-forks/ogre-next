@@ -40,6 +40,7 @@
 #include "System/Android/AndroidSystems.h"
 
 #include <fstream>
+#include <iostream>
 
 #if OGRE_USE_SDL2
     #include <SDL_syswm.h>
@@ -131,6 +132,8 @@ namespace Demo
         if( SDL_Init( SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK |
                       SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS ) != 0 )
         {
+            auto val = SDL_GetError();
+            std::cout << val << std::endl;
             OGRE_EXCEPT( Ogre::Exception::ERR_INTERNAL_ERROR, "Cannot initialize SDL2!",
                          "GraphicsSystem::initialize" );
         }
@@ -171,14 +174,11 @@ namespace Demo
             rs->setConfigOption( "sRGB Gamma Conversion", "Yes" );
             ++itor;
         }
-
-        if( mAlwaysAskForConfig || !mRoot->restoreConfig() )
+        if( !mRoot->getRenderSystem() )
         {
-            if( !mRoot->showConfigDialog() )
-            {
-                mQuit = true;
-                return;
-            }
+            Ogre::RenderSystem *renderSystem =
+                mRoot->getRenderSystemByName( "Vulkan Rendering Subsystem" );
+            mRoot->setRenderSystem( renderSystem );
         }
 
     #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS

@@ -1,0 +1,457 @@
+load(
+    "@gz//bazel/skylark:build_defs.bzl",
+    "GZ_FEATURES",
+    "GZ_ROOT",
+    "GZ_VISIBILITY",
+    "cmake_configure_file",
+)
+load(
+    "@gz//bazel/lint:lint.bzl",
+    "add_lint_tests",
+)
+
+package(
+    default_visibility = GZ_VISIBILITY,
+    features = GZ_FEATURES,
+)
+
+cmake_configure_file(
+    name = "OgreBuildSettings",
+    src = "CMake/Templates/OgreBuildSettings.h.in",
+    out = "OgreMain/include/OgreBuildSettings.h",
+    cmakelists = ["CMake/CMakeLists.txt"],
+    defines = [
+      "OGRE_DEBUG_LEVEL_DEBUG=3",
+      "OGRE_DEBUG_LEVEL_RELEASE=0",
+      "OGRE_BUILD_RENDERSYSTEM_GL3PLUS=1",
+      "OGRE_BUILD_RENDERSYSTEM_VULKAN=1",
+      "OGRE_BUILD_PLUGIN_PFX=1",
+      #"OGRE_BUILD_COMPONENT_HLMS_PBS_MOBILE=0",
+      #"OGRE_BUILD_COMPONENT_HLMS_UNLIT_MOBILE=0",
+      "OGRE_BUILD_COMPONENT_HLMS_PBS=1",
+      "OGRE_BUILD_COMPONENT_HLMS_UNLIT=1",
+      "OGRE_BUILD_COMPONENT_PAGING=1",
+      "OGRE_BUILD_COMPONENT_PLANAR_REFLECTIONS=1",
+      "OGRE_BUILD_COMPONENT_SCENE_FORMAT=1",
+      "OGRE_BUILD_COMPONENT_MESHLODGENERATOR=1",
+      "OGRE_BUILD_COMPONENT_TERRAIN=1",
+      "OGRE_BUILD_COMPONENT_VOLUME=1",
+      "OGRE_BUILD_COMPONENT_PROPERTY=1",
+      "OGRE_BUILD_COMPONENT_OVERLAY=1",
+      "OGRE_BUILD_COMPONENT_RTSHADERSYSTEM=1",
+      "OGRE_CONFIG_LITTLE_ENDIAN=1",
+      #"OGRE_CONFIG_BIG_ENDIAN=0",
+      "OGRE_CONFIG_UNIX_NO_X11=0",
+      "OGRE_SET_DOUBLE=0",
+      "OGRE_SET_NODE_INHERIT_TRANSFORM=0",
+      "OGRE_SET_ALLOCATOR=1",
+      "OGRE_SET_CONTAINERS_USE_ALLOCATOR=1",
+      "OGRE_SET_STRING_USE_ALLOCATOR=0",
+      "OGRE_SET_MEMTRACK_DEBUG=0",
+      "OGRE_SET_MEMTRACK_RELEASE=0",
+      "OGRE_SET_ASSERT_MODE=0",
+      "OGRE_SET_THREADS=0",
+      "OGRE_SET_THREAD_PROVIDER=0",
+      "OGRE_SET_DISABLE_MESHLOD=0",
+      "OGRE_SET_DISABLE_FREEIMAGE=0",
+      "OGRE_SET_DISABLE_JSON=0",
+      "OGRE_SET_DISABLE_DDS=0",
+      "OGRE_SET_DISABLE_PVRTC=1",
+      "OGRE_SET_DISABLE_ETC=0",
+      "OGRE_SET_DISABLE_STBI=1",
+      "OGRE_SET_DISABLE_ASTC=1",
+      "OGRE_SET_DISABLE_ZIP=1",
+      "OGRE_SET_DISABLE_VIEWPORT_ORIENTATIONMODE=1",
+      "OGRE_SET_DISABLE_GLES2_GLSL_OPTIMISER=1",
+      "OGRE_SET_DISABLE_GLES2_VAO_SUPPORT=1",
+      "OGRE_SET_DISABLE_GL_STATE_CACHE_SUPPORT=1",
+      "OGRE_SET_DISABLE_GLES3_SUPPORT=1",
+      "OGRE_SET_RENDERDOC_INTEGRATION=1",
+      "OGRE_SET_DISABLE_TBB_SCHEDULER=0",
+      "OGRE_SET_USE_BOOST=0",
+      "OGRE_SET_PROFILING=0",
+      "OGRE_SET_PROFILING_EXHAUSTIVE=0",
+      "OGRE_SET_DISABLE_QUAD_BUFFER_STEREO=1",
+      "OGRE_SET_DISABLE_AMD_AGS=1",
+      "OGRE_SET_DISABLE_FINE_LIGHT_MASK_GRANULARITY=1",
+      "OGRE_SET_ENABLE_LIGHT_OBB_RESTRAINT=0",
+      "OGRE_SET_USE_SIMD=1",
+      "OGRE_SET_RESTRICT_ALIASING=1",
+      "OGRE_SET_IDSTRING_ALWAYS_READABLE=0",
+    ],
+)
+
+main_srcs = glob(
+    include = [
+        "OgreMain/src/*.h",
+        "OgreMain/src/*.cpp",
+        "OgreMain/src/*.inl",
+        "OgreMain/src/Animation/*.cpp",
+        "OgreMain/src/CommandBuffer/*.cpp",
+        "OgreMain/src/Compositor/*.cpp",
+        "OgreMain/src/Compositor/**/*.cpp",
+        "OgreMain/src/Compute/*.cpp",
+        "OgreMain/src/Hash/*.cpp",
+        "OgreMain/src/Math/Array/*.cpp",
+        "OgreMain/src/Math/Array/SSE2/Single/*.cpp",
+        "OgreMain/src/Math/Simple/C/*.cpp",
+        "OgreMain/src/Vao/*.cpp",
+        "OgreMain/src/Threading/OgreDefaultWorkQueueStandard.cpp",
+        "OgreMain/src/Threading/OgreBarrierPThreads.cpp",
+        "OgreMain/src/Threading/OgreLightweightMutexPThreads.cpp",
+        "OgreMain/src/Threading/OgreThreadsPThreads.cpp",
+        "OgreMain/src/Threading/OgreWaitableEvent.cpp",
+    ],
+    exclude = [
+        "OgreMain/src/OgrePVRTCCodec.cpp",
+        "OgreMain/src/OgreZip.cpp",
+        "OgreMain/src/OgreSTBICodec.cpp",
+    ],
+) + [
+  "OgreMain/src/GLX/OgreTimer.cpp",
+  "OgreMain/src/GLX/OgreFileSystemLayer.cpp",
+]
+
+main_hdrs = glob(
+    [
+        "OgreMain/include/*.h",
+        "OgreMain/include/ogrestd/*.h",
+        "OgreMain/include/*.inl",
+        "OgreMain/include/debugbreak/*.h",
+        "OgreMain/include/Emscripten/*.h",
+        "OgreMain/include/GLX/*.h",
+        "OgreMain/include/Hash/*.h",
+        "OgreMain/include/Vao/*.h",
+        "OgreMain/include/Threading/*.h",
+        "OgreMain/include/Animation/*.h",
+        "OgreMain/include/Animation/*.inl",
+        "OgreMain/include/Compositor/*.h",
+        "OgreMain/include/Compositor/**/*.h",
+        "OgreMain/include/Compute/*.h",
+        "OgreMain/include/CommandBuffer/*.h",
+        "OgreMain/include/Math/Array/*.h",
+        "OgreMain/include/Math/Simple/*.h",
+        "OgreMain/include/Math/Simple/C/*.h",
+        "OgreMain/include/Math/Simple/C/*.inl",
+        "OgreMain/include/Math/Array/SSE2/Single/*.h",
+        "OgreMain/include/Math/Array/SSE2/Single/*.inl",
+    ])
+
+
+cc_library(
+  name="OgreMain_c",
+  srcs = glob([
+    "OgreMain/src/nedmalloc/*.c",
+        "OgreMain/src/stbi/*.c",
+  ]),
+  hdrs = glob([
+    "OgreMain/src/nedmalloc/*.h",
+  ]),
+  includes = ["OgreMain/include"],
+  copts = [
+    "-Wno-implicit-function-declaration",
+    "-Wno-int-to-pointer-cast",
+    "-Wno-misleading-indentation",
+    "-Wno-sequence-point",
+    "-Wno-unused-value",
+  ]
+)
+
+cc_library(
+  name="OgreMain",
+  hdrs = main_hdrs + ["OgreMain/include/OgreBuildSettings.h"],
+  srcs = main_srcs,
+  includes = ["OgreMain/include"],
+  defines = [
+    "OGRE_STATIC_LIB=1",
+    "OGRE2_STATIC_LIB=1",
+  ],
+  copts = [
+    "-Wno-catch-value",
+    "-Wno-class-memaccess",
+    "-Wno-ignored-attributes",
+    "-Wno-int-in-bool-context",
+    "-Wno-maybe-uninitialized",
+    "-Wno-sign-compare",
+    "-Wno-unused-but-set-variable",
+    "-Wno-unused-function",
+    "-Wno-unused-value",
+    "-Wno-unused-variable",
+  ],
+  deps = [
+    ":OgreMain_c",
+    "@freeimage",
+    "@gl//:GLX",
+  ]
+)
+
+cc_library(
+  name="ComponentHlmsCommon",
+  srcs = [
+    "Components/Hlms/Common/src/OgreHlmsBufferManager.cpp",
+  ],
+  hdrs = [
+    "Components/Hlms/Common/include/OgreHlmsBufferManager.h",
+    "Components/Hlms/Common/include/OgreHlmsTextureBaseClass.h",
+    "Components/Hlms/Common/include/OgreHlmsTextureBaseClass.inl",
+  ],
+  includes = [
+    "Components/Hlms/Common/include/"
+  ],
+  deps =[
+    ":OgreMain",
+  ]
+)
+
+cc_library(
+  name="ComponentPlanarReflections",
+  srcs=glob(["Components/PlanarReflections/src/*.cpp"]),
+  hdrs=glob(["Components/PlanarReflections/include/*.h"]),
+  includes=["Components/PlanarReflections/include"],
+  deps=[":OgreMain"]
+)
+
+cc_library(
+  name="ComponentHlmsPbs",
+  srcs = glob([
+    "Components/Hlms/Pbs/src/*.cpp",
+    "Components/Hlms/Pbs/src/*.cpp.inc",
+    "Components/Hlms/Pbs/src/Cubemaps/*.cpp",
+    "Components/Hlms/Pbs/src/InstantRadiosity/*.cpp",
+    "Components/Hlms/Pbs/src/IrradianceField/*.cpp",
+    "Components/Hlms/Pbs/src/LightProfiles/*.cpp",
+    "Components/Hlms/Pbs/src/Vct/*.cpp",
+  ]),
+  hdrs = glob(include=[
+    "Components/Hlms/Pbs/include/*.h",
+    "Components/Hlms/Pbs/include/Cubemaps/*.h",
+    "Components/Hlms/Pbs/include/InstantRadiosity/*.h",
+    "Components/Hlms/Pbs/include/IrradianceField/*.h",
+    "Components/Hlms/Pbs/include/LightProfiles/*.h",
+    "Components/Hlms/Pbs/include/Vct/*.h",
+  ]),
+  includes = [
+    "Components/Hlms/Pbs/include",
+  ],
+  strip_include_prefix = "Components/Hlms/Pbs/include",
+  include_prefix = "Hlms/Pbs",
+  copts = [
+    "-Wno-class-memaccess",
+    "-Wno-unused-but-set-variable",
+    "-Wno-unused-variable",
+  ],
+  deps = [
+    ":OgreMain",
+    ":ComponentHlmsCommon",
+    ":ComponentPlanarReflections"
+  ]
+)
+
+cc_library(
+  name="ComponentHlmsUnlit",
+  srcs = glob([
+    "Components/Hlms/Unlit/src/*.cpp",
+    "Components/Hlms/Unlit/src/*.cpp.inc",
+  ]),
+  hdrs = glob(include=[
+    "Components/Hlms/Unlit/include/*.h",
+  ]),
+  includes = [
+    "Components/Hlms/Unlit/include",
+  ],
+  strip_include_prefix = "Components/Hlms/Unlit/include",
+  include_prefix = "Hlms/Unlit",
+  deps = [
+    ":OgreMain",
+    ":ComponentHlmsCommon",
+  ]
+)
+
+cc_library(
+  name="ComponentOverlay",
+  srcs = glob([
+    "Components/Overlay/src/*.cpp",
+  ]),
+  hdrs = glob(include=[
+    "Components/Overlay/include/*.h",
+  ]),
+  includes = [
+    "Components/Overlay/include/"
+  ],
+  strip_include_prefix = "Components/Overlay/include",
+  include_prefix = "Overlay",
+  copts = [
+    "-Wno-sign-compare",
+    "-Wno-unused-value",
+    "-Wno-unused-variable",
+  ],
+  deps = [
+    ":OgreMain",
+    ":ComponentHlmsUnlit",
+    "@freetype2"
+  ]
+)
+
+cc_library(
+  name="Plugin_ParticleFX",
+  srcs = glob([
+    "PlugIns/ParticleFX/src/*.cpp",
+  ]),
+  hdrs = glob([
+    "PlugIns/ParticleFX/include/*.h",
+  ]),
+  includes = [
+    "PlugIns/ParticleFX/include/"
+  ],
+  deps = [
+    ":OgreMain",
+  ]
+)
+
+cc_library(
+  name="RenderSystemGL3Plus_egl",
+  srcs = glob([
+    "RenderSystems/GL3Plus/src/*.cpp",
+    "RenderSystems/GL3Plus/src/*.cpp",
+    "RenderSystems/GL3Plus/src/GLSL/*.cpp",
+    "RenderSystems/GL3Plus/src/Vao/*.cpp",
+    "RenderSystems/GL3Plus/src/windowing/EGL/OgreGL3PlusUtil.h",
+    "RenderSystems/GL3Plus/src/windowing/EGL/PBuffer/*.cpp",
+  ]),
+  hdrs = glob(include=[
+    "RenderSystems/GL3Plus/include/*.h",
+    "RenderSystems/GL3Plus/include/GL/*.h",
+    "RenderSystems/GL3Plus/include/GLSL/*.h",
+    "RenderSystems/GL3Plus/include/Vao/*.h",
+    "RenderSystems/GL3Plus/include/windowing/EGL/*.h",
+    "RenderSystems/GL3Plus/include/windowing/EGL/PBuffer/*.h",
+  ]),
+  includes = [
+    "RenderSystems/GL3Plus/include/",
+    "RenderSystems/GL3Plus/include/GLSL",
+    "RenderSystems/GL3Plus/include/windowing/EGL",
+    "RenderSystems/GL3Plus/src/windowing/EGL",
+  ],
+  deps = [
+    ":OgreMain",
+    "@gl//:GL",
+    "@gl//:EGL",
+  ],
+  defines = [
+    "OGRE2_HAVE_OPENGL=1",
+    "OGRE_GLSUPPORT_USE_EGL_HEADLESS=1",
+  ],
+  copts = [
+    "-Wno-switch",
+    "-Wno-maybe-uninitialized",
+    "-Wno-unused-value",
+  ]
+)
+
+cc_library(
+  name="RenderSystemGL3Plus_glx",
+  srcs = glob([
+    "RenderSystems/GL3Plus/src/*.cpp",
+    "RenderSystems/GL3Plus/src/*.cpp",
+    "RenderSystems/GL3Plus/src/GLSL/*.cpp",
+    "RenderSystems/GL3Plus/src/Vao/*.cpp",
+    "RenderSystems/GL3Plus/src/windowing/GLX/*.cpp",
+    "RenderSystems/GL3Plus/src/windowing/GLX/*.h",
+  ]),
+  hdrs = glob(include=[
+    "RenderSystems/GL3Plus/include/*.h",
+    "RenderSystems/GL3Plus/include/GL/*.h",
+    "RenderSystems/GL3Plus/include/GLSL/*.h",
+    "RenderSystems/GL3Plus/include/Vao/*.h",
+    "RenderSystems/GL3Plus/include/windowing/GLX/*.h",
+  ]),
+  includes = [
+    "RenderSystems/GL3Plus/include/",
+    "RenderSystems/GL3Plus/include/GLSL",
+    "RenderSystems/GL3Plus/include/windowing/GLX",
+    "RenderSystems/GL3Plus/src/windowing/GLX",
+  ],
+  deps = [
+    ":OgreMain",
+    "@gl//:GL",
+    "@gl//:GLX",
+  ],
+  defines = [
+    "OGRE2_HAVE_OPENGL=1",
+    "OGRE_GLSUPPORT_USE_GLX=1",
+  ],
+  copts = [
+    "-Wno-switch",
+    "-Wno-maybe-uninitialized",
+    "-Wno-unused-value",
+  ]
+)
+
+rendersystem_vulkan_srcs = glob([
+  "RenderSystems/Vulkan/src/*.cpp",
+  "RenderSystems/Vulkan/src/Vao/*.cpp",
+]) + [
+  "RenderSystems/Vulkan/src/OgreVulkanDelayedFuncs.h",
+  "RenderSystems/Vulkan/src/SPIRV-Reflect/spirv_reflect.c",
+]
+
+rendersystem_vulkan_hdrs = glob(include=[
+    "RenderSystems/Vulkan/include/*.h",
+    "RenderSystems/Vulkan/include/Vao/*.h",
+    "RenderSystems/Vulkan/include/SPIRV-Reflect/**/*.h",
+])
+
+rendersystem_vulkan_includes = [
+    "RenderSystems/Vulkan/src",
+    "RenderSystems/Vulkan/include"
+]
+
+rendersystem_vulkan_deps = [
+    ":OgreMain",
+    "@glslang//:glslang",
+    "@glslang//:spirv",
+    "@glslang//:spirv-tools",
+    "@vulkan",
+]
+
+rendersystem_vulkan_copts = [
+    "-Wno-switch",
+    "-Wno-maybe-uninitialized",
+    "-Wno-unused-value",
+    "-Wno-return-type",
+]
+
+cc_library(
+  name="RenderSystemVulkan_null",
+  srcs = rendersystem_vulkan_srcs,
+  hdrs = rendersystem_vulkan_hdrs,
+  deps = rendersystem_vulkan_deps,
+  copts = rendersystem_vulkan_copts,
+  includes = rendersystem_vulkan_includes,
+  defines = [
+    "OGRE2_HAVE_VULKAN=1",
+    "OGRE_VULKAN_WINDOW_NULL=1",
+  ],
+)
+
+cc_library(
+  name="RenderSystemVulkan_xcb",
+  srcs =rendersystem_vulkan_srcs + glob(include=[
+    "RenderSystems/Vulkan/src/Windowing/X11/*.cpp",
+  ]),
+  hdrs = rendersystem_vulkan_hdrs + glob(include=[
+    "RenderSystems/Vulkan/include/Windowing/X11/*.h",
+  ]),
+  includes = rendersystem_vulkan_includes,
+  deps = rendersystem_vulkan_deps + [
+    "@X11//:Xlib-xcb",
+    "@xcb//:xcb",
+    "@xcb//:render",
+    "@xcb//:randr"
+  ],
+  defines = [
+    "OGRE2_HAVE_VULKAN=1",
+    "OGRE_VULKAN_WINDOW_XCB=1",
+  ],
+  copts = rendersystem_vulkan_copts,
+)
